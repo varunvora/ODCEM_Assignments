@@ -4,26 +4,26 @@ public class Main {
     public static void main(String[] args) {
 
         int earth, asia, africa, india, china, egypt, bangalore;
-        Tree tree = new Tree();
-        earth = tree.createNode("Earth");
-        asia = tree.createNode("Asia");
-        africa = tree.createNode("Africa");
-        india = tree.createNode("India");
-        china = tree.createNode("China");
-        egypt = tree.createNode("Egypt");
-        bangalore = tree.createNode("Bangalore");
+        DAG dag = new DAG();
+        earth = dag.createNode("Earth");
+        asia = dag.createNode("Asia");
+        africa = dag.createNode("Africa");
+        india = dag.createNode("India");
+        china = dag.createNode("China");
+        egypt = dag.createNode("Egypt");
+        bangalore = dag.createNode("Bangalore");
 
-        // tree.addDependency(parent, child);
-        tree.addDependency(earth, asia);
-        tree.addDependency(earth, africa);
-        tree.addDependency(asia, india);
-        tree.addDependency(africa, egypt);
-        tree.addDependency(india, bangalore);
-        tree.addDependency(asia, china);
+        // dag.addDependency(parent, child);
+        dag.addDependency(earth, asia);
+        dag.addDependency(earth, africa);
+        dag.addDependency(asia, india);
+        dag.addDependency(africa, egypt);
+        dag.addDependency(india, bangalore);
+        dag.addDependency(asia, china);
 
-        for (int child : tree.getDescendants(earth))
-            System.out.println(tree.nodeMap.get(child).name);
+        for (int child : dag.getDescendants(earth))
+            System.out.println(dag.nodeMap.get(child).name);
 
-        System.out.println(tree.getParents(324));
+        System.out.println(dag.getParents(324));
     }
 }

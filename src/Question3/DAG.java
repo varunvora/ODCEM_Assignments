@@ -3,11 +3,11 @@ package Question3;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class Tree {
+public class DAG {
     HashMap<Integer, Node> nodeMap;
     private int highestKey = 1;
 
-    Tree() {
+    DAG() {
         this.nodeMap = new HashMap<>();
     }
 
@@ -179,7 +179,7 @@ public class Tree {
         HashSet<Integer> recStack = new HashSet<>();
 
         for (int nodeId: this.nodeMap.keySet()) {
-            if (this.dfs(nodeId, visited, recStack))
+            if (!visited.contains(nodeId) &&this.dfs(nodeId, visited, recStack))
                 return true;
         }
 
