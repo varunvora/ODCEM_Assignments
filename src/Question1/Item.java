@@ -1,15 +1,17 @@
 package Question1;
 
-class Item {
+import java.util.Scanner;
 
-    private String name;
-    double price;
-    double totalPrice;
-    double tax;
-    int quantity;
-    String type;
+public class Item {
 
-    Item() {
+    public String name;
+    public double price;
+    public double totalPrice;
+    public double tax;
+    public int quantity;
+    public String type;
+
+    public Item() {
         this.name = "";
         this.price = -1.0;
         this.quantity = -1;
@@ -18,7 +20,7 @@ class Item {
         this.tax = -1.0;
     }
 
-    void scanInput(String[] args) {
+    void scanArgs(String[] args) {
         /* Scans the name, price, quantity and type */
         if (args.length < 2) {
             return;
@@ -48,6 +50,28 @@ class Item {
         }
     }
 
+    void scanInput() {
+
+        Scanner sc = new Scanner(System.in).useDelimiter("\n");
+
+        System.out.println("Enter the following details for the item:");
+        System.out.print("Name: ");
+        this.name = sc.hasNext() ? sc.next() : this.name;
+
+        System.out.print("Type: ");
+        this.type = sc.hasNext() ? sc.next() : this.type;
+
+        if (!this.verifyInput())
+            return;
+
+        System.out.print("Price: ");
+        this.price = sc.hasNextDouble() ? sc.nextDouble() : this.price;
+
+        System.out.print("Quantity: ");
+        this.quantity = sc.hasNextInt() ? sc.nextInt() : this.quantity;
+
+    }
+
     boolean verifyInput() {
         if (this.type.equals("")) {
             System.err.println("item type is mandatory");
@@ -60,7 +84,7 @@ class Item {
         return true;
     }
 
-    void computeTax() {
+    public void computeTax() {
         if (this.verifyInput() && this.price != -1 && this.quantity != -1) {
 
             if (this.type.equals("raw")) {
@@ -94,7 +118,7 @@ class Item {
         }
     }
 
-    void printOutput() {
+    public void printOutput() {
         /*item name, item price, sales tax liability per item, final prize (sales tax + item prize)*/
         System.out.println("Name: " + this.name);
         if (this.price != -1)
