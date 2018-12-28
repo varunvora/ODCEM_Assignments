@@ -21,9 +21,6 @@ public class Main {
         dag.addDependency(india, bangalore);
         dag.addDependency(asia, china);
 
-        for (int child : dag.getDescendants(earth))
-            System.out.println(dag.nodeMap.get(child).name);
-
-        System.out.println(dag.getParents(324));
+        System.out.println(dag);
     }
 }

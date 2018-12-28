@@ -24,7 +24,6 @@ public class DAG {
             this.children = new HashSet<>();
         }
 
-
         public String toString() {
 
             StringBuilder parentsString = new StringBuilder();
@@ -37,7 +36,6 @@ public class DAG {
                 chilrenString.append(child);
                 chilrenString.append(" ");
             }
-
             return  "\nId: " + this.id +
                     "\nName: " + this.name +
                     "\nParents: " + parentsString +
@@ -46,14 +44,11 @@ public class DAG {
     }
 
     int createNode(String name) {
-        /*
-        creates a new node in the tree
-        returns corresponding node id.
-         */
+        /* creates a new node in the tree
+        returns corresponding node id. */
 
-        //find a nodeId
         while (this.nodeMap.containsKey(highestKey))
-            this.highestKey++;
+            this.highestKey++; //find a valid nodeId
 
         Node newNode = new Node(this.highestKey, name);
         this.nodeMap.put(this.highestKey, newNode);
@@ -66,11 +61,9 @@ public class DAG {
     }
 
     boolean addDependency(int parentId, int childId) {
-        /*
-        creates a dependency in the tree.
+        /* creates a dependency in the tree.
         Returns true if successful.
-        false if the given node ids do not exist or if the dependency creates a cycle.
-        */
+        false if the given node ids do not exist or if the dependency creates a cycle. */
 
         Node parentNode = this.nodeMap.get(parentId);
         Node childNode = this.nodeMap.get(childId);
@@ -90,11 +83,10 @@ public class DAG {
     }
 
     boolean deleteDependency(int parentId, int childId) {
-        /*
-        deletes a given dependency from the tree.
+        /* deletes a given dependency from the tree.
         Returns true if that dependency is deleted or does not exist
-        Returns false if the given nodeIds do not exist
-         */
+        Returns false if the given nodeIds do not exist */
+
         if (!isNodeExists(parentId) || !isNodeExists(childId))
             return false;
 
@@ -105,11 +97,10 @@ public class DAG {
     }
 
     boolean deleteNode(int nodeId) {
-        /*
-        deletes a node from the tree and its relationships
+        /* deletes a node from the tree and its relationships
         returns true if the node was deleted
-        returns false if the node id does not exist
-         */
+        returns false if the node id does not exist */
+
         if (!isNodeExists(nodeId))
             return false;
 
@@ -123,31 +114,18 @@ public class DAG {
 
         //remove this node from the tree
         this.nodeMap.remove(nodeId);
-
         return true;
     }
 
     HashSet<Integer> getParents(int nodeId) {
-        /*
-        Returns a set of node ids.
-        Empty set for no parents or invalid nodeId.
-         */
-        if (!isNodeExists(nodeId))
-            return new HashSet<>();
-
-        return this.nodeMap.get(nodeId).parents;
+        return  (!isNodeExists(nodeId)) ? new HashSet<>(): this.nodeMap.get(nodeId).parents;
     }
 
     HashSet<Integer> getChildren(int nodeId) {
-        if (!isNodeExists(nodeId))
-            return new HashSet<>();
-
-        return this.nodeMap.get(nodeId).children;
+        return  (!isNodeExists(nodeId)) ? new HashSet<>() : this.nodeMap.get(nodeId).children;
     }
 
     HashSet<Integer> getAncestors(int nodeId) {
-        if (!isNodeExists(nodeId))
-            return new HashSet<>();
 
         HashSet<Integer> parents = getParents(nodeId);
         HashSet<Integer> ancestors = new HashSet<>(parents);
@@ -158,36 +136,28 @@ public class DAG {
     }
 
     HashSet<Integer> getDescendants(int nodeId) {
-        if (!isNodeExists(nodeId))
-            return new HashSet<>();
 
         HashSet<Integer> children = getChildren(nodeId);
         HashSet<Integer> descendants = new HashSet<>(children);
 
-
         for (int child: children)
             descendants.addAll(this.getDescendants(child));
-
         return descendants;
     }
 
     boolean isCyclic() {
 
-        //ref: https://www.youtube.com/watch?v=joqmqvHC_Bo
-
         HashSet<Integer> visited = new HashSet<>();
         HashSet<Integer> recStack = new HashSet<>();
 
         for (int nodeId: this.nodeMap.keySet()) {
-            if (!visited.contains(nodeId) &&this.dfs(nodeId, visited, recStack))
+            if (!visited.contains(nodeId) && this.dfs(nodeId, visited, recStack))
                 return true;
         }
-
         return false;
     }
 
     private boolean dfs(int nodeId, HashSet<Integer> visited, HashSet<Integer> recStack) {
-
         if (!visited.contains(nodeId)) {
             visited.add(nodeId);
             recStack.add(nodeId);
